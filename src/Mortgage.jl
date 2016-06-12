@@ -26,6 +26,11 @@ macro p(ex)
 	end
 end
 
+"""
+    mortgage()
+
+Prints out a summary of calculated values for the mortgage, or prints a table of individual mortgage payments.
+"""
 function mortgage(; principal=100000, rate=10.0, amortization=25, frequency="m", compounding="m", startdate=today(), term="5", output=nothing, payment=nothing, help=nothing)
 	if help=="y"
 		println(helpText)
