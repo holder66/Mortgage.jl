@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Description">
+  <meta name="author" content="Henry Olders">
+  
+  <title>Mortgage.jl</title>
+  
+
+  <link rel="shortcut icon" href="./img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="./css/highlight.css">
+  <link href="./assets/Documenter.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "None";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = "/";
+  </script>
+  
+  <script src="./js/jquery-2.1.1.min.js"></script>
+  <script src="./js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="./js/highlight.pack.js"></script>
+  <script src="./js/theme.js"></script> 
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  <script src="./assets/mathjaxhelper.js"></script>
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Mortgage.jl</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href=".">Introduction</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#mortgage">Mortgage</a></li>
+                
+                    <li><a class="toctree-l4" href="#about">About</a></li>
+                
+                    <li><a class="toctree-l4" href="#installation">Installation</a></li>
+                
+                    <li><a class="toctree-l4" href="#quick-start">Quick start</a></li>
+                
+                    <li><a class="toctree-l4" href="#documentation">Documentation</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Mortgage.jl</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/holder66/Mortgage.jl" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="mortgage">Mortgage</h1>
+<p><a href="https://travis-ci.org/holder66/Mortgage.jl"><img alt="Build Status" src="https://travis-ci.org/holder66/Mortgage.jl.svg?branch=master" /></a></p>
+<h2 id="about">About</h2>
+<p>Mortgage is a software package for loan and mortgage calculations, maintained by Henry Olders.
+It is written in <a href="http://www.julialang.org">julia</a>.</p>
+<ul>
+<li><a href="https://github.com/holder66/Mortgage.jl">https://github.com/holder66/Mortgage.jl</a> (Source code)</li>
+</ul>
+<p>So far, Mortgage provides the following features:</p>
+<ul>
+<li>Works in any decimal-based currency</li>
+<li>Generates a summary printout</li>
+<li>Can generate a table of payments</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>To use Mortgage, a julia version of 0.4 or higher is necessary (the latest stable julia version will do).
+Please see <a href="http://julialang.org/downloads/">http://julialang.org/downloads</a> for instructions on how to obtain julia for your system.
+Once a suitable julia version is installed, use the following steps at the julia prompt to install Mortgage:</p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="s">&quot;https://github.com/holder66/Mortgage.jl&quot;</span><span class="p">)</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s">&quot;Mortgage&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<h2 id="quick-start">Quick start</h2>
+<p>Here is a quick example of using Mortgage, with default values:</p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="k">using</span> <span class="n">Mortgage</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">mortgage</span><span class="p">()</span>
+
+<span class="n">Principal</span><span class="p">:</span> <span class="mi">100000</span><span class="p">;</span> <span class="n">Annual</span> <span class="n">Interest</span> <span class="n">Rate</span><span class="p">:</span> <span class="mf">10.0</span><span class="o">%</span><span class="p">;</span> <span class="n">Payment</span> <span class="n">frequency</span><span class="p">:</span> <span class="n">monthly</span>
+<span class="n">Compounding</span><span class="p">:</span> <span class="n">monthly</span> <span class="p">(</span><span class="n">American</span><span class="p">)</span> <span class="n">compounding</span>
+<span class="n">Your</span> <span class="n">mortgage</span> <span class="n">starts</span> <span class="n">on</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">12</span> <span class="n">and</span> <span class="nb">is</span> <span class="n">amortized</span> <span class="n">over</span> <span class="p">(</span><span class="n">ie</span> <span class="n">would</span> <span class="n">be</span> <span class="n">fully</span> <span class="n">paid</span> <span class="n">off</span> <span class="k">in</span><span class="p">)</span> <span class="mf">25.0</span> <span class="n">years</span><span class="o">.</span>
+<span class="n">Your</span> <span class="n">first</span> <span class="n">payment</span> <span class="n">of</span> <span class="mf">908.70</span> <span class="n">will</span> <span class="n">be</span> <span class="n">on</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">12.</span>
+<span class="n">During</span> <span class="n">the</span> <span class="n">term</span> <span class="n">of</span> <span class="mi">5</span> <span class="n">years</span><span class="p">,</span> <span class="n">you</span> <span class="n">will</span> <span class="n">make</span> <span class="mi">60</span> <span class="n">payments</span><span class="p">,</span> <span class="n">with</span> <span class="n">a</span> <span class="n">final</span> <span class="n">payment</span> <span class="n">of</span> <span class="mf">908.70</span> <span class="n">on</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mf">12.</span>
+<span class="n">At</span> <span class="n">the</span> <span class="k">end</span> <span class="n">of</span> <span class="n">the</span> <span class="n">term</span><span class="p">,</span> <span class="n">the</span> <span class="n">balance</span> <span class="n">remaining</span> <span class="n">will</span> <span class="n">be</span> <span class="mf">94163.77</span><span class="o">.</span> <span class="n">You</span> <span class="n">will</span> <span class="n">have</span> <span class="n">paid</span> <span class="n">a</span> <span class="n">total</span> <span class="n">of</span> <span class="mf">54522.04</span> 
+<span class="n">of</span> <span class="n">which</span> <span class="mf">48685.81</span><span class="p">,</span> <span class="n">or</span> <span class="mf">89.3</span><span class="o">%</span><span class="p">,</span> <span class="n">will</span> <span class="n">be</span> <span class="n">interest</span><span class="o">.</span><span class="n">This</span> <span class="n">represents</span> <span class="mf">48.7</span><span class="o">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">principal</span> <span class="n">amount</span><span class="o">.</span>
+</pre></div>
+
+
+<h2 id="documentation">Documentation</h2>
+<p>The documentation of the single functions can also be accessed at the julia prompt. Here is an example:</p>
+<div class="codehilite"><pre><span></span>help?&gt; signature
+search: signature
+
+  ----------------------------------------------------------------------------
+
+  signature(O::NfMaximalOrder) -&gt; Tuple{Int, Int}
+
+  |  Returns the signature of the ambient number field of \mathcal O.
+</pre></div>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/holder66/Mortgage.jl" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+      
+    </span>
+</div>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 0.15.3
+Build Date UTC : 2016-06-12 18:40:39.317229
+-->
