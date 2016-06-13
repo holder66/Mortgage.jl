@@ -60,10 +60,10 @@ Contributions are very welcome, as are feature requests and suggestions. Please 
 
 
 [docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
-[docs-latest-url]: https://holder66.github.io/Mortgage.jl.jl/latest
+[docs-latest-url]: https://holder66.github.io/Mortgage.jl.
 
 [docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-stable-url]: https://holder66.github.io/Mortgage.jl/latest
+[docs-stable-url]: https://holder66.github.io/Mortgage.jl
 
 [travis-img]: https://travis-ci.org/holder66/Mortgage.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/holder66/Mortgage.jl
