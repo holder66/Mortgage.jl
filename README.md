@@ -1,9 +1,5 @@
 # Mortgage.jl
 
-[![Build Status](https://travis-ci.org/holder66/Mortgage.jl.svg?branch=master)](https://travis-ci.org/holder66/Mortgage.jl)
-
-## About
-
 Mortgage is a software package for loan and mortgage calculations, maintained by Henry Olders.
 It is written in [julia](http://www.julialang.org).
 
@@ -49,7 +45,7 @@ Documentation is built automatically with help from *MkDocs* on *Travis CI* and 
 
 ## Project Status
 
-`Mortgage.jl` is tested against Julia `0.4` and *current* `0.5-dev` on Linux, OS X, and Windows.
+`Mortgage.jl` will eventually be tested against Julia `0.4` and *current* `0.5-dev` on Linux, OS X, and Windows.
 
 [![][travis-img]][travis-url] [![][appveyor-img]][appveyor-url] [![][codecov-img]][codecov-url]
 
@@ -76,6 +72,3 @@ Contributions are very welcome, as are feature requests and suggestions. Please 
 
 [issues-url]: https://github.com/holder66/Mortgage.jl/issues
 
-## Documentation
-
-<http://holder66.github.io/Mortgage.jl>
