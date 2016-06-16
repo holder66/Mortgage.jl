@@ -119,15 +119,8 @@
 
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
-<p><a id='Mortgage.main' href='#Mortgage.main'>#</a>
-<strong><code>Mortgage.main</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span>main()
-</pre></div>
-
-
-<p>Use when running mortgage.jl from the command line, eg  julia mortgage.jl [arguments]   </p>
-<p><a id='Mortgage.mortgage' href='#Mortgage.mortgage'>#</a>
-<strong><code>Mortgage.mortgage</code></strong> &mdash; <em>Function</em>.</p>
+<p><a id='Mortgage.mortgage-Tuple{}' href='#Mortgage.mortgage-Tuple{}'>#</a>
+<strong><code>Mortgage.mortgage</code></strong> &mdash; <em>Method</em>.</p>
 <div class="codehilite"><pre><span></span>mortgage()
 </pre></div>
 
@@ -139,29 +132,8 @@
 <li><code>rate::Number</code>: annual interest rate, in percent, eg 3.26 . Default: rate=10.0</li>
 <li><code>amortization::Number</code>: the number of years over which the entire loan or mortgage would be paid off. Default is amortization=25</li>
 </ul>
-<p><a id='Mortgage.parse_commandline' href='#Mortgage.parse_commandline'>#</a>
-<strong><code>Mortgage.parse_commandline</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span>parse_commandline(args)
-</pre></div>
-
-
-<p>Specifies the arguments, their types, default values, and help strings.</p>
-<p><a id='Mortgage.printsummary' href='#Mortgage.printsummary'>#</a>
-<strong><code>Mortgage.printsummary</code></strong> &mdash; <em>Function</em>.</p>
-<div class="codehilite"><pre><span></span>printsummary(args)
-</pre></div>
-
-
-<p>Print a summary of the mortgage parameters, payment amount, starting date, date and size of last payment, balance remaining, etc.</p>
-<p>args = dictionary of arguments, including values for the keys: principal, rate, frequency, compounding, startdate, amortization, paymentSize, firstPaymentDate, termString, numberOfPayments</p>
 <p><a id='Index-1'></a></p>
 <h2 id="index">Index</h2>
-<ul>
-<li><a href=".#Mortgage.main"><code>Mortgage.main</code></a></li>
-<li><a href=".#Mortgage.mortgage"><code>Mortgage.mortgage</code></a></li>
-<li><a href=".#Mortgage.parse_commandline"><code>Mortgage.parse_commandline</code></a></li>
-<li><a href=".#Mortgage.printsummary"><code>Mortgage.printsummary</code></a></li>
-</ul>
 <div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">mortgage</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s">&quot;y&quot;</span><span class="p">)</span>
 <span class="n">This</span> <span class="n">mortgage</span> <span class="n">and</span> <span class="n">loan</span> <span class="n">calculator</span> <span class="n">will</span> <span class="n">work</span> <span class="k">in</span> <span class="n">any</span> <span class="n">decimal</span><span class="o">-</span><span class="n">based</span> <span class="n">currency</span><span class="o">.</span>
 <span class="n">All</span> <span class="n">the</span> <span class="n">parameters</span> <span class="n">are</span> <span class="n">keyword</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">and</span> <span class="n">have</span> <span class="n">default</span> <span class="n">values</span><span class="p">;</span> <span class="k">try</span> <span class="n">it</span> <span class="n">out</span><span class="p">:</span> <span class="n">mortgage</span><span class="p">()</span>
@@ -281,5 +253,5 @@
 
 <!--
 MkDocs version : 0.15.3
-Build Date UTC : 2016-06-16 22:21:51.231606
+Build Date UTC : 2016-06-16 22:32:40.558089
 -->
