@@ -63,15 +63,11 @@
         
             <ul>
             
-                <li class="toctree-l3"><a href="#mortgagejl">Mortgage.jl</a></li>
+                <li class="toctree-l3"><a href="#mortgagejl-documentation">Mortgage.jl Documentation</a></li>
                 
-                    <li><a class="toctree-l4" href="#about">About</a></li>
+                    <li><a class="toctree-l4" href="#functions">Functions</a></li>
                 
-                    <li><a class="toctree-l4" href="#installation">Installation</a></li>
-                
-                    <li><a class="toctree-l4" href="#quick-start">Quick start</a></li>
-                
-                    <li><a class="toctree-l4" href="#documentation">Documentation</a></li>
+                    <li><a class="toctree-l4" href="#index">Index</a></li>
                 
             
             </ul>
@@ -115,47 +111,38 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="mortgagejl">Mortgage.jl</h1>
-<p><a href="https://travis-ci.org/holder66/Mortgage.jl"><img alt="Build Status" src="https://travis-ci.org/holder66/Mortgage.jl.svg?branch=master" /></a></p>
-<h2 id="about">About</h2>
-<p>Mortgage is a software package for loan and mortgage calculations, maintained by Henry Olders.
-It is written in <a href="http://www.julialang.org">julia</a>.</p>
-<ul>
-<li><a href="https://github.com/holder66/Mortgage.jl">https://github.com/holder66/Mortgage.jl</a> (Source code)</li>
-</ul>
-<p>So far, Mortgage provides the following features:</p>
-<ul>
-<li>Works in any decimal-based currency</li>
-<li>Generates a summary printout</li>
-<li>Can generate a table of payments</li>
-</ul>
-<h2 id="installation">Installation</h2>
-<p>To use Mortgage, a julia version of 0.4 or higher is necessary (the latest stable julia version will do).
-Please see <a href="http://julialang.org/downloads/">http://julialang.org/downloads</a> for instructions on how to obtain julia for your system.
-Once a suitable julia version is installed, use the following steps at the julia prompt to install Mortgage:</p>
-<div class="codehilite"><pre><span></span>julia&gt; Pkg.clone(&quot;https://github.com/holder66/Mortgage.jl&quot;)
-julia&gt; Pkg.build(&quot;Mortgage&quot;)
+                <h1 id="mortgagejl-documentation">Mortgage.jl Documentation</h1>
+<div class="codehilite"><pre><span></span>- [Functions](index.md#Functions-1)
+- [Index](index.md#Index-1)
 </pre></div>
 
 
-<h2 id="quick-start">Quick start</h2>
-<p>Here is a quick example of using Mortgage, with default values:</p>
-<div class="codehilite"><pre><span></span><span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">using</span> <span class="nt">Mortgage</span>
-
-<span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">mortgage</span><span class="o">()</span>
-
-<span class="nt">Principal</span><span class="o">:</span> <span class="nt">100000</span><span class="o">;</span> <span class="nt">Annual</span> <span class="nt">Interest</span> <span class="nt">Rate</span><span class="o">:</span> <span class="nt">10</span><span class="nc">.0</span><span class="o">%;</span> <span class="nt">Payment</span> <span class="nt">frequency</span><span class="o">:</span> <span class="nt">monthly</span>
-<span class="nt">Compounding</span><span class="o">:</span> <span class="nt">monthly</span> <span class="o">(</span><span class="nt">American</span><span class="o">)</span> <span class="nt">compounding</span>
-<span class="nt">Your</span> <span class="nt">mortgage</span> <span class="nt">starts</span> <span class="nt">on</span> <span class="nt">2016-06-12</span> <span class="nt">and</span> <span class="nt">is</span> <span class="nt">amortized</span> <span class="nt">over</span> <span class="o">(</span><span class="nt">ie</span> <span class="nt">would</span> <span class="nt">be</span> <span class="nt">fully</span> <span class="nt">paid</span> <span class="nt">off</span> <span class="nt">in</span><span class="o">)</span> <span class="nt">25</span><span class="nc">.0</span> <span class="nt">years</span><span class="o">.</span>
-<span class="nt">Your</span> <span class="nt">first</span> <span class="nt">payment</span> <span class="nt">of</span> <span class="nt">908</span><span class="nc">.70</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">on</span> <span class="nt">2016-07-12</span><span class="o">.</span>
-<span class="nt">During</span> <span class="nt">the</span> <span class="nt">term</span> <span class="nt">of</span> <span class="nt">5</span> <span class="nt">years</span><span class="o">,</span> <span class="nt">you</span> <span class="nt">will</span> <span class="nt">make</span> <span class="nt">60</span> <span class="nt">payments</span><span class="o">,</span> <span class="nt">with</span> <span class="nt">a</span> <span class="nt">final</span> <span class="nt">payment</span> <span class="nt">of</span> <span class="nt">908</span><span class="nc">.70</span> <span class="nt">on</span> <span class="nt">2021-06-12</span><span class="o">.</span>
-<span class="nt">At</span> <span class="nt">the</span> <span class="nt">end</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">term</span><span class="o">,</span> <span class="nt">the</span> <span class="nt">balance</span> <span class="nt">remaining</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">94163</span><span class="nc">.77</span><span class="o">.</span> <span class="nt">You</span> <span class="nt">will</span> <span class="nt">have</span> <span class="nt">paid</span> <span class="nt">a</span> <span class="nt">total</span> <span class="nt">of</span> <span class="nt">54522</span><span class="nc">.04</span> 
-<span class="nt">of</span> <span class="nt">which</span> <span class="nt">48685</span><span class="nc">.81</span><span class="o">,</span> <span class="nt">or</span> <span class="nt">89</span><span class="nc">.3</span><span class="o">%,</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">interest</span><span class="nc">.This</span> <span class="nt">represents</span> <span class="nt">48</span><span class="nc">.7</span><span class="o">%</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">principal</span> <span class="nt">amount</span><span class="o">.</span>
+<p><a id='Functions-1'></a></p>
+<h2 id="functions">Functions</h2>
+<p><a id='Mortgage.main' href='#Mortgage.main'>#</a>
+<strong><code>Mortgage.main</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>main()
 </pre></div>
 
 
-<h2 id="documentation">Documentation</h2>
-<p><a href="http://holder66.github.io/Mortgage.jl">http://holder66.github.io/Mortgage.jl</a></p>
+<p>Use when running mortgage.jl from the command line, eg  julia mortgage.jl [arguments]   </p>
+<p><a id='Mortgage.mortgage' href='#Mortgage.mortgage'>#</a>
+<strong><code>Mortgage.mortgage</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>mortgage()
+</pre></div>
+
+
+<p>Prints out a summary of calculated values for the mortgage, or prints a table of individual mortgage payments.</p>
+<p><a id='Mortgage.printsummary' href='#Mortgage.printsummary'>#</a>
+<strong><code>Mortgage.printsummary</code></strong> &mdash; <em>Function</em>.</p>
+<p>Print a summary of the mortgage parameters, payment amount, starting date, date and size of last payment, balance remaining, etc.</p>
+<p><a id='Index-1'></a></p>
+<h2 id="index">Index</h2>
+<ul>
+<li><a href=".#Mortgage.main"><code>Mortgage.main</code></a></li>
+<li><a href=".#Mortgage.mortgage"><code>Mortgage.mortgage</code></a></li>
+<li><a href=".#Mortgage.printsummary"><code>Mortgage.printsummary</code></a></li>
+</ul>
               
             </div>
           </div>
@@ -194,5 +181,5 @@ julia&gt; Pkg.build(&quot;Mortgage&quot;)
 
 <!--
 MkDocs version : 0.15.3
-Build Date UTC : 2016-06-13 21:30:34.650372
+Build Date UTC : 2016-06-16 16:24:20.097986
 -->
