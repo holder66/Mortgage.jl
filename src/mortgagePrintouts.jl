@@ -1,22 +1,27 @@
 __precompile__()
 
 """
+	printsummary(args)
+
 Print a summary of the mortgage parameters, payment amount, starting date,
 date and size of last payment, balance remaining, etc.
+
+args = dictionary of arguments, including values for the keys: principal, rate, frequency, compounding, startdate, amortization, paymentSize,
+firstPaymentDate, termString, numberOfPayments
 """
 function printsummary(args) 
 	# print out basic mortgage data
 	# first, use dotablerows to calculate values by iteration out to the end of the term
 	(accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate) = dotablerows(args)
 	# print the summary statistics
-	println()
+	# println()
 	println("Principal: $(args["principal"]); Annual Interest Rate: $(args["rate"])%; Payment frequency: $(frequencyDescriptors[args["frequency"]])")
 	println("Compounding: $(compoundingDescriptors[args["compounding"]])")
 	println(@sprintf "Your mortgage starts on %s and is amortized over (ie would be fully paid off in) %0.1f years." args["startdate"] args["amortization"])
 	println("Your first payment of $(@sprintf "%0.2f" args["paymentSize"]) will be on $(args["firstPaymentDate"]).")
 	println(@sprintf "During the term of %s, you will make %d payments, with a final payment of %0.2f on %s." args["termString"] args["numberOfPayments"] finalPayment finalPaymentDate)
-	print(@sprintf "At the end of the term, the balance remaining will be %0.2f. You will have paid a total of %0.2f \nof which %0.2f, or %0.1f%%, will be interest." balance accumulatedTotal accumulatedInterest accumulatedInterest / accumulatedTotal * 100)
-	println(@sprintf "This represents %0.1f%% of the principal amount.\n\n" accumulatedInterest / args["principal"] * 100)
+	println(@sprintf "At the end of the term, the balance remaining will be %0.2f. You will have paid a total of %0.2f" balance accumulatedTotal)
+	println(@sprintf "of which %0.2f, or %0.1f%%, will be interest. This represents %0.1f%% of the principal amount." accumulatedInterest accumulatedInterest / accumulatedTotal * 100 accumulatedInterest / args["principal"] * 100)
 end
 
 function printtable(args)

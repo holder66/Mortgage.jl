@@ -1,3 +1,5 @@
 using Documenter, Mortgage
  
-makedocs()
+makedocs(
+doctest = true
+)

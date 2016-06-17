@@ -3,6 +3,11 @@
 using ArgParse,
 	Base.Dates
 
+"""
+	parse_commandline(args)
+	
+Specifies the arguments, their types, default values, and help strings.
+"""
 function parse_commandline(args)
 	s = ArgParseSettings()
 
