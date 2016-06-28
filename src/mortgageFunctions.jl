@@ -2,26 +2,7 @@ __precompile__()
 
 # Mortgage calculator functions
 
-function initialization(term, amortization, startdate, frequency, payment)
-	termLength = haskey(mortgageTermDescriptors, term) ? mortgageTermDescriptors[term][2] : parse(Int, term)
-	if termLength == "a"
-		termLength = amortization
-	end
-	if termLength > amortization
-		error("The specified term exceeds the amortization!")
-	end
-	termString = haskey(mortgageTermDescriptors, term) ? mortgageTermDescriptors[term][1] : "$(term) years"
-	firstPaymentDate = nextpaymentdate(startdate, frequency, startdate)
-	numberOfPayments = numberofperiods(frequency, termLength, startdate)
-	if payment == nothing
-		paymentSize = paymentsizecalc(rate, principal, amortization, compounding, frequency, startdate)
-	else
-		paymentSize = payment
-		amortization = Int(calculateamortization(args) - args["startdate"]) / 365.25
-		args["amortization"] = amortization
-	end
-	return termLength, termString, firstPaymentDate, numberOfPayments, PaymentSize, amortization
-end
+using Base.Dates
 
 function termlength(term, amortization)
 	termLength = haskey(mortgageTermDescriptors, term) ? mortgageTermDescriptors[term][2] : parse(Int, term)
@@ -33,31 +14,23 @@ function termlength(term, amortization)
 	return termLength
 end
 
-function printtablerow(paymentNumber, paymentDate, principalPortion, interestPortion, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance)
-	s1 = @sprintf "%7d %12s %12.2f %12.2f" paymentNumber paymentDate principalPortion interestPortion
-	s2 = @sprintf "%16.2f %13.2f %13.2f %15.2f" accumulatedPrincipal accumulatedInterest accumulatedTotal balance
-	println(s1,s2)
-end
-
-function printfinalrow(paymentNumber, paymentDate, principalPortion, interestPortion)
-	println(@sprintf "The final payment (payment number %d) on %s will be %0.2f." paymentNumber paymentDate principalPortion + interestPortion)
-end
-
-function tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber, numberOfPayments, paymentDate, principalPortion, interestPortion, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance)
+function tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber, numberOfPayments, paymentDate, principalPortion, interestPortion, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, table)
 	# this is a recursive function to calculate values for each mortgage payment
 	if balance == 0
-		return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate
+		return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
 	else
 		interestPortion = interest(balance, rate, timeValues[frequency], compounding, paymentDate)
 		principalPortion = paymentSize - interestPortion
-
+		paymentDate = nextpaymentdate(paymentDate, frequency, startdate)
+		table = append!(table, [paymentNumber + 1, paymentDate, principalPortion, interestPortion, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance])
+		
 		if principalPortion > balance # ie, we would be overpaying the loan
-			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, nextpaymentdate(paymentDate, frequency, startdate), balance, interestPortion, accumulatedPrincipal + balance, accumulatedInterest + interestPortion, accumulatedTotal + balance + interestPortion, 0)
+			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, paymentDate, balance, interestPortion, accumulatedPrincipal + balance, accumulatedInterest + interestPortion, accumulatedTotal + balance + interestPortion, 0, table)
 		elseif paymentNumber < numberOfPayments
 			# @show interestPortion interestPortion+accumulatedInterest
-			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, nextpaymentdate(paymentDate, frequency, startdate), principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + principalPortion + interestPortion, balance - principalPortion)
+			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, paymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + principalPortion + interestPortion, balance - principalPortion, table)
 		else
-			return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate
+			return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
 		end
 	end
 end
@@ -65,7 +38,8 @@ end
 function dotablerows(principal, rate, frequency, compounding, startdate, firstPaymentDate, paymentSize, numberOfPayments)
 	# call tablerow with the arguments initialized to starting values
 	interestAmount = interest(principal, rate, timeValues[frequency], compounding, firstPaymentDate)
-	return tablerow(rate, frequency, compounding, startdate, paymentSize, 1, numberOfPayments, firstPaymentDate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize - interestAmount))
+	table = [1, startdate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize -interestAmount)]
+	return tablerow(rate, frequency, compounding, startdate, paymentSize, 1, numberOfPayments, firstPaymentDate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize - interestAmount), table)
 end
 
 
@@ -86,15 +60,6 @@ function processpayment(paymentDate, interestPortion, balance)
 		return processpayment(nextpaymentdate(paymentDate, frequency, startdate), interestPortion, balance - principalPortion)
 	end
 end
-
-# function paymentsize(args)
-# 	# if no payment amount was specified, calculate the amount
-# 	if args["payment"] == nothing
-# 		return paymentsizecalc(args["rate"], args["principal"], args["amortization"], args["compounding"], args["frequency"], args["startdate"])
-# 	else
-# 		return args["payment"]
-# 	end
-# end
 
 function interest(principal, rate, timeValue, compounding, paymentDate)
 	# calculates the interest amount for a single time period
@@ -133,7 +98,7 @@ end
 
 # calculate the size of each payment, when not specified by the user.
 function paymentsizecalc(annualRate, principal, amortization, compounding, frequency, startDate)
-	@show annualRate principal amortization compounding frequency startDate
+	# @show annualRate principal amortization compounding frequency startDate
 	# for compound interest, the formula is: 
 	# P = r(PV) / (1 - (1+r)e(-n))
 	# where P = payment, PV = Present Value, r = rate per period, n = number of periods

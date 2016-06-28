@@ -4,19 +4,11 @@
 
 module Mortgage
 
-export mortgage, printsummary
+export mortgage, printsummary, printtable
 
-include("mortgageArguments.jl") # specifies the command line arguments and defaults
 include("mortgageParameters.jl") # uses dictionaries to expand on input arguments
 include("mortgageFunctions.jl")
 include("mortgagePrintouts.jl")
-
-
-# using Base.Dates,
-# 	MortgagePrintouts,
-# 	MortgageArguments,
-# 	MortgageFunctions,
-# 	MortgageParameters
 
 """
 function mortgage
@@ -46,44 +38,18 @@ function mortgage(; principal=100000, rate=10.0, amortization=25, frequency="m",
 	paymentSize = paymentsizecalc(rate, principal, amortization, compounding, frequency, startdate)
 	# @show termLength firstPaymentDate numberOfPayments paymentSize
 	# @show rate
-	accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate = dotablerows(principal, rate, frequency, compounding, startdate, firstPaymentDate, paymentSize, numberOfPayments)
-	@show paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate
-	return principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate
+	accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table = dotablerows(principal, rate, frequency, compounding, startdate, firstPaymentDate, paymentSize, numberOfPayments)
+	# @show paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate
+	# @show table
+	return principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table
 end
-"""
-function printsummary
 
-printsummary(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate)
-
-printsummary prints out a seven-line summary of the given and calculated mortgage parameters, eg:
-
-Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
-Compounding: monthly (American) compounding
-Your mortgage starts on 2016-06-27 and is amortized over (ie would be fully paid off in) 25.0 years.
-Your first payment of 908.70 will be on 2016-07-27.
-During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-27.
-At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04
-of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.
-
-usage:
- printsummary(mortgage()...)
- 	where mortgage() takes arguments as defined for that function
-"""
-function printsummary(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate)
-	# print out basic mortgage data
-	println()
-	println("Principal: $(principal); Annual Interest Rate: $(rate)%; Payment frequency: $(frequencyDescriptors[frequency])")
-	println("Compounding: $(compoundingDescriptors[compounding])")
-	println(@sprintf "Your mortgage starts on %s and is amortized over (ie would be fully paid off in) %0.1f years." startdate amortization)
-	println("Your first payment of $(@sprintf "%0.2f" paymentSize) will be on $(firstPaymentDate).")
-	println(@sprintf "During the term of %s, you will make %d payments, with a final payment of %0.2f on %s." termString numberOfPayments finalPayment finalPaymentDate)
-	println(@sprintf "At the end of the term, the balance remaining will be %0.2f. You will have paid a total of %0.2f" balance accumulatedTotal)
-	println(@sprintf "of which %0.2f, or %0.1f%%, will be interest. This represents %0.1f%% of the principal amount." accumulatedInterest accumulatedInterest / accumulatedTotal * 100 accumulatedInterest / principal * 100)
-end
 
 function main()
 	printsummary(mortgage()...)
+	printtable(mortgage()...)
 end
 
-main()
+# main()
+
 end # module
