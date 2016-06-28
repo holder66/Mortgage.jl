@@ -12,3 +12,8 @@ notifications:
 #script:
 #  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 #  - julia -e 'Pkg.clone(pwd()); Pkg.build("Mortgage"); Pkg.test("Mortgage"; coverage=true)'
+before_install:
+	openssl aes-256-cbc -K $encrypted_d2668787a36e_key -iv $encrypted_d2668787a36e_iv -in .documenter.enc -out .documenter -d
+after_success:
+  - julia -e 'Pkg.add("Documenter")'
+  - julia -e 'cd(Pkg.dir("Mortgage")); include(joinpath("docs", "make.jl"))'

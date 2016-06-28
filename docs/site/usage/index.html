@@ -134,6 +134,13 @@
 <li><code>principal::Number</code>: the principal amount of the loan or mortgage, in any decimal-based currency. Default: principal=100000</li>
 <li><code>rate::Number</code>: annual interest rate, in percent, eg 3.26 . Default: rate=10.0</li>
 <li><code>amortization::Number</code>: the number of years over which the entire loan or mortgage would be paid off. Default is amortization=25</li>
+<li><code>frequency::String</code>: "m" = monthly (default); "w" = weekly; "t" = two weeks; "b" = bimonthly. Note that for bimonthly payments, they will occur on the first and the fifteenth of each month, and the mortgage should start on the first or fifteenth of the month.</li>
+<li><code>compounding::String</code>: s = none (simple interest; note that interest accrues daily but is not compounded); m - monthly (ie American) (this is the default); c = Canadian (ie semi-annual. Note that variable rate mortgages often compound monthly - check the fine print.)</li>
+<li><code>startdate::Date</code>: start date for the mortgage; default is today's date. Enter as: startdate=Date(2016,7,13)</li>
+<li><code>term::String</code>: specify the term in years; use 1/4 for 3 months and 1/2 for 6 months; enter a to indicate for the entire amortization interval (ie until paid off); default is 5 years. A term greater than the amortization will generate an error.</li>
+<li><code>output::String</code>: specify 'list' for a formatted listing, or a filename; if left blank, only a summary will be printed.</li>
+<li><code>payment::Number</code>: payment amount; if not specified, it will be calculated based on the amortization interval. Note that for simple interest mortgages, the payment will be calculated as for monthly compounded mortgages.</li>
+<li><code>help::String</code>: if "y", a help text will be printed.</li>
 </ul>
               
             </div>

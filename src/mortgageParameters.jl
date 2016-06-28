@@ -21,12 +21,12 @@ helpText = """
 This mortgage and loan calculator will work in any decimal-based currency.
 All the parameters are keyword parameters, and have default values; try it out: mortgage()
 Example parameters: principal=250000, rate=4.25, amortization=30, term="5",
-payment=3750, startdate=Date(2013,7,27)
+payment=3750, startdate=Date(2013,7,27), frequency="w", compounding="c"
 The term can be specified as "1/4", for 3 months; "1/2", for 6 months;
 "a", which makes the term the same as the amortization; or just enter the years.
-Compounding takes the values "m", for monthly (American) compounding;
+compounding takes the values "m", for monthly (American) compounding;
 "c", for Canadian (biannual) compounding; or "s", for simple interest (no compounding).
-Payment frequency takes values "m" for monthly;
+frequency takes values "m" for monthly;
 "b" for bimonthly (twice a month, on the first and the fifteenth);
 "w" for weekly; and "t" for every two weeks.
 For bimonthly payments, please specify a starting date which is the first of the month.
