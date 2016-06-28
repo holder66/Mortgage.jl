@@ -19,18 +19,16 @@ function tablerow(rate, frequency, compounding, startdate, paymentSize, paymentN
 	if balance == 0
 		return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
 	else
+		nextPaymentDate = nextpaymentdate(paymentDate, frequency, startdate)
 		interestPortion = interest(balance, rate, timeValues[frequency], compounding, paymentDate)
 		principalPortion = paymentSize - interestPortion
-		paymentDate = nextpaymentdate(paymentDate, frequency, startdate)
-		table = append!(table, [paymentNumber + 1, paymentDate, principalPortion, interestPortion, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance])
-		
 		if principalPortion > balance # ie, we would be overpaying the loan
-			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, paymentDate, balance, interestPortion, accumulatedPrincipal + balance, accumulatedInterest + interestPortion, accumulatedTotal + balance + interestPortion, 0, table)
-		elseif paymentNumber < numberOfPayments
+			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, nextPaymentDate, balance, interestPortion, accumulatedPrincipal + balance, accumulatedInterest + interestPortion, accumulatedTotal + balance + interestPortion, 0, append!(table, [paymentNumber + 1, nextPaymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + paymentSize, balance - principalPortion]))
+		elseif paymentNumber < numberOfPayments # still more payments to go...
 			# @show interestPortion interestPortion+accumulatedInterest
-			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, paymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + principalPortion + interestPortion, balance - principalPortion, table)
-		else
-			return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
+			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, nextPaymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + principalPortion + interestPortion, balance - principalPortion, append!(table, [paymentNumber + 1, nextPaymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + paymentSize, balance - principalPortion]))
+		else # ie the number of payments == paymentNumber
+\			return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
 		end
 	end
 end
@@ -38,7 +36,7 @@ end
 function dotablerows(principal, rate, frequency, compounding, startdate, firstPaymentDate, paymentSize, numberOfPayments)
 	# call tablerow with the arguments initialized to starting values
 	interestAmount = interest(principal, rate, timeValues[frequency], compounding, firstPaymentDate)
-	table = [1, startdate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize -interestAmount)]
+	table = [1, firstPaymentDate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize -interestAmount)]
 	return tablerow(rate, frequency, compounding, startdate, paymentSize, 1, numberOfPayments, firstPaymentDate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize - interestAmount), table)
 end
 

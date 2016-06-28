@@ -92,7 +92,7 @@ function printtablerows(numberOfPayments, table)
 		j = i * 8 + 1
 		s1 = @sprintf "%7d %12s %12.2f %12.2f" table[j] table[j + 1] table[j + 2] table[j + 3]
 		s2 = @sprintf "%16.2f %13.2f %13.2f %15.2f" table[j + 4] table[j + 5] table[j + 6] table[j + 7]
-		println(s1,s2)
+		println(s1, s2)
 	end
 end
 

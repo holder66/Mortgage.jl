@@ -35,7 +35,11 @@ function mortgage(; principal=100000, rate=10.0, amortization=25, frequency="m",
 	# how many payments will be made over the term of the mortgage
 	numberOfPayments = numberofperiods(frequency, termLength, startdate)
 	# payment size is either specified, or needs to be determined based on the amortization
-	paymentSize = paymentsizecalc(rate, principal, amortization, compounding, frequency, startdate)
+	if payment == nothing
+		paymentSize = paymentsizecalc(rate, principal, amortization, compounding, frequency, startdate)
+	else
+		paymentSize = payment
+	end
 	# @show termLength firstPaymentDate numberOfPayments paymentSize
 	# @show rate
 	accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table = dotablerows(principal, rate, frequency, compounding, startdate, firstPaymentDate, paymentSize, numberOfPayments)
@@ -46,10 +50,10 @@ end
 
 
 function main()
-	printsummary(mortgage()...)
-	printtable(mortgage()...)
+	# printsummary(mortgage()...)
+	printtable(mortgage(payment=1000, term="1/2")...)
 end
 
-# main()
+main()
 
 end # module
