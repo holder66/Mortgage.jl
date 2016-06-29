@@ -124,24 +124,35 @@
                 <h1 id="mortgagejl-documentation">Mortgage.jl Documentation</h1>
 <p><a id='Mortgage.mortgage-Tuple{}' href='#Mortgage.mortgage-Tuple{}'>#</a>
 <strong><code>Mortgage.mortgage</code></strong> &mdash; <em>Method</em>.</p>
-<div class="codehilite"><pre><span></span>mortgage()
+<div class="codehilite"><pre><span></span>mortgage(&lt;keyword arguments&gt;)
+
+(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table) = mortgage(principal, rate, amortization, frequency, compounding, startdate, term, payment)
 </pre></div>
 
 
-<p>Prints out a summary of calculated values for the mortgage, or prints a table of individual mortgage payments.</p>
+<p>Return calculated values for mortgages or other loans.</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>principal::Number</code>: the principal amount of the loan or mortgage, in any decimal-based currency. Default: principal=100000</li>
 <li><code>rate::Number</code>: annual interest rate, in percent, eg 3.26 . Default: rate=10.0</li>
 <li><code>amortization::Number</code>: the number of years over which the entire loan or mortgage would be paid off. Default is amortization=25</li>
-<li><code>frequency::String</code>: "m" = monthly (default); "w" = weekly; "t" = two weeks; "b" = bimonthly. Note that for bimonthly payments, they will occur on the first and the fifteenth of each month, and the mortgage should start on the first or fifteenth of the month.</li>
-<li><code>compounding::String</code>: s = none (simple interest; note that interest accrues daily but is not compounded); m - monthly (ie American) (this is the default); c = Canadian (ie semi-annual. Note that variable rate mortgages often compound monthly - check the fine print.)</li>
+<li><code>frequency::String</code>: "m" for monthly (default); "w" for weekly; "t" for two weeks; "b" for bimonthly. Note that for bimonthly payments, they will occur on the first and the fifteenth of each month, and the mortgage should start on the first or fifteenth of the month.</li>
+<li><code>compounding::String</code>: "s" for none (simple interest; note that interest accrues daily but is not compounded); "m" for monthly (ie American) (this is the default); "c" for Canadian (ie semi-annual. Note that variable rate mortgages often compound monthly - check the fine print.)</li>
 <li><code>startdate::Date</code>: start date for the mortgage; default is today's date. Enter as: startdate=Date(2016,7,13)</li>
-<li><code>term::String</code>: specify the term in years; use 1/4 for 3 months and 1/2 for 6 months; enter a to indicate for the entire amortization interval (ie until paid off); default is 5 years. A term greater than the amortization will generate an error.</li>
-<li><code>output::String</code>: specify 'list' for a formatted listing, or a filename; if left blank, only a summary will be printed.</li>
+<li><code>term::String</code>: specify the term in years; use "1/4" for 3 months and "1/2" for 6 months; enter "a" to indicate for the entire amortization interval (ie until paid off); default is 5 years. A term greater than the amortization will generate an error.</li>
 <li><code>payment::Number</code>: payment amount; if not specified, it will be calculated based on the amortization interval. Note that for simple interest mortgages, the payment will be calculated as for monthly compounded mortgages.</li>
-<li><code>help::String</code>: if "y", a help text will be printed.</li>
 </ul>
+<p><strong>table</strong></p>
+<p>This value returned by mortgage() is a one-dimensional array with eight values for each payment. The values are:    paymentNumber, paymentDate, principalAmount, interestAmount, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance. These values are used by printtable() to print out a listing with one line for each payment.</p>
+<p><strong>Example</strong></p>
+<div class="codehilite"><pre><span></span><span class="n">julia</span><span class="o">&gt;</span> <span class="n">mortgage</span><span class="p">(</span><span class="n">principal</span><span class="o">=</span><span class="mi">54000</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">2.125</span><span class="p">,</span> <span class="n">amortization</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="s">&quot;w&quot;</span><span class="p">,</span> <span class="n">compounding</span><span class="o">=</span><span class="s">&quot;c&quot;</span><span class="p">,</span> <span class="n">startdate</span><span class="o">=</span><span class="n">Date</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">29</span><span class="p">),</span> <span class="n">term</span><span class="o">=</span><span class="s">&quot;a&quot;</span><span class="p">)</span> 
+
+<span class="p">(</span><span class="mi">54000</span><span class="p">,</span><span class="mf">2.125</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="s">&quot;w&quot;</span><span class="p">,</span><span class="s">&quot;c&quot;</span><span class="p">,</span><span class="mi">2016</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">29</span><span class="p">,</span><span class="s">&quot;until paid off&quot;</span><span class="p">,</span><span class="mf">63.50799378958494</span><span class="p">,</span><span class="mi">2016</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">06</span><span class="p">,</span><span class="mi">1044</span><span class="p">,</span><span class="mf">54000.00000000001</span><span class="p">,</span><span class="mf">12229.766528153477</span><span class="p">,</span><span class="mf">66229.76652815354</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">54.43699940601391</span><span class="p">,</span><span class="mi">2036</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span><span class="kt">Any</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2016</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">06</span><span class="p">,</span><span class="mf">41.61279659644556</span><span class="p">,</span><span class="mf">21.89519719313937</span><span class="p">,</span><span class="mf">41.61279659644556</span><span class="p">,</span><span class="mf">21.89519719313937</span><span class="p">,</span><span class="mf">63.50799378958494</span><span class="p">,</span><span class="mf">53958.38720340355</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2016</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">13</span>  <span class="n">…</span>  <span class="mf">66175.32952874753</span><span class="p">,</span><span class="mf">54.41493596613927</span><span class="p">,</span><span class="mi">1043</span><span class="p">,</span><span class="mi">2036</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span><span class="mf">63.485930349710294</span><span class="p">,</span><span class="mf">0.022063439874642057</span><span class="p">,</span><span class="mf">54009.070994383575</span><span class="p">,</span><span class="mf">12229.766528153477</span><span class="p">,</span><span class="mf">66238.83752253711</span><span class="p">,</span><span class="o">-</span><span class="mf">9.0709</span>
+</pre></div>
+
+
+<p><strong>Usage</strong></p>
+<p>Commonly used with printsummary() or printtable(), which are part of this package.</p>
               
             </div>
           </div>
