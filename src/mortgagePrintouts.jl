@@ -1,23 +1,26 @@
 __precompile__()
 
 """
-function printsummary
+    printsummary()
 
-printsummary(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
+    printsummary(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
 
-printsummary prints out a seven-line summary of the given and calculated mortgage parameters, eg:
+Print out a seven-line summary of the given and calculated mortgage parameters, eg:
+```julia
+julia> printsummary(mortgage(startdate=Date(2016,6,29))...)
 
 Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
 Compounding: monthly (American) compounding
-Your mortgage starts on 2016-06-27 and is amortized over (ie would be fully paid off in) 25.0 years.
-Your first payment of 908.70 will be on 2016-07-27.
-During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-27.
+Your mortgage starts on 2016-06-29 and is amortized over (ie would be fully paid off in) 25.0 years.
+Your first payment of 908.70 will be on 2016-07-30.
+During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-29.
 At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04
 of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.
+```
+# usage
+`printsummary(mortgage()...)`
 
-usage:
- printsummary(mortgage()...)
- 	where mortgage() takes arguments as defined for that function.
+where mortgage() takes arguments as defined for that function.
 """
 function printsummary(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
 	# print out basic mortgage data
@@ -32,36 +35,35 @@ function printsummary(principal, rate, amortization, frequency, compounding, sta
 end
 
 """
-function printtable
+    function printtable
 
-printtable(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
+    printtable(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
 
-printsummary prints out a header, then a table with a row for each payment, and then a summary footer, eg:
-
+Print out a header, then a table with a row for each payment, and then a summary footer, eg:
+```julia
+julia> printtable(mortgage(startdate=Date(2016,6,29), term="1/4")...)
                        Mortgage Schedule of Payments
 
 Mortgage Principal: 100000.00 at 10.00% annual interest, amortized over 25.0 years,
-using monthly (American) compounding, to be repaid with 6 payments of 908.70 each,
-for a term of 6 months. The mortgage start date is 2016-07-13.
+using monthly (American) compounding, to be repaid with 3 payments of 908.70 each,
+for a term of 3 months. The mortgage start date is 2016-06-29.
 
                                                    Accumulated   Accumulated   Accumulated
 Payment         Date    Principal     Interest       Principal      Interest         Total         Balance
 
-      1   2016-07-13        75.37       833.33           75.37        833.33        908.70        99924.63
-      2   2016-09-13        76.00       832.71           75.37        833.33        908.70        99924.63
-      3   2016-10-13        76.63       832.07          151.36       1666.04       1817.40        99848.64
-      4   2016-11-13        77.27       831.43          227.99       2498.11       2726.10        99772.01
-      5   2016-12-13        77.91       830.79          305.26       3329.54       3634.80        99694.74
-      6   2017-01-13        78.56       830.14          383.17       4160.33       4543.50        99616.83
+      1   2016-07-30        75.37       833.33           75.37        833.33        908.70        99924.63
+      2   2016-08-30        76.00       832.71          151.36       1666.04       1817.40        99848.64
+      3   2016-09-29        76.63       832.07          227.99       2498.11       2726.10        99772.01
 
-At the end of the term, the outstanding balance will be 99538.27.
-The last payment of the term will be on 2017-02-13 in the amount of 908.70.
-Over the term, you will have paid a total of 5452.20 of which 4990.47, or 91.53%, is interest. This
-represents 4.99% of the principal amount.
+At the end of the term, the outstanding balance will be 99772.01.
+The last payment of the term will be on 2016-09-29 in the amount of 908.70.
+Over the term, you will have paid a total of 2726.10 of which 2498.11, or 91.64%, is interest. This
+represents 2.50% of the principal amount.
+```
+# usage
+`printtable(mortgage()...)`
 
-usage:
- printtablej(mortgage()...)
- 	where mortgage() takes arguments as defined for that function.
+where mortgage() takes arguments as defined for that function.
 """
 function printtable(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
 	# used when a tabular listing for each payment is desired

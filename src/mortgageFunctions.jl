@@ -4,6 +4,7 @@ __precompile__()
 
 using Base.Dates
 
+"Return length of the mortgage or loan term in years."
 function termlength(term, amortization)
 	termLength = haskey(mortgageTermDescriptors, term) ? mortgageTermDescriptors[term][2] : parse(Int, term)
 	if termLength == "a"
@@ -14,55 +15,37 @@ function termlength(term, amortization)
 	return termLength
 end
 
+"Recurse to calculate for each payment."
 function tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber, numberOfPayments, paymentDate, principalPortion, interestPortion, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, table)
-	# this is a recursive function to calculate values for each mortgage payment
-	if balance == 0
+	if balance == 0 # no more payments to process
 		return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
-	else
+	else # get values for next payment
 		nextPaymentDate = nextpaymentdate(paymentDate, frequency, startdate)
 		interestPortion = interest(balance, rate, timeValues[frequency], compounding, paymentDate)
 		principalPortion = paymentSize - interestPortion
 		if principalPortion > balance # ie, we would be overpaying the loan
 			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, nextPaymentDate, balance, interestPortion, accumulatedPrincipal + balance, accumulatedInterest + interestPortion, accumulatedTotal + balance + interestPortion, 0, append!(table, [paymentNumber + 1, nextPaymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + paymentSize, balance - principalPortion]))
 		elseif paymentNumber < numberOfPayments # still more payments to go...
-			# @show interestPortion interestPortion+accumulatedInterest
 			return tablerow(rate, frequency, compounding, startdate, paymentSize, paymentNumber + 1, numberOfPayments, nextPaymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + principalPortion + interestPortion, balance - principalPortion, append!(table, [paymentNumber + 1, nextPaymentDate, principalPortion, interestPortion, accumulatedPrincipal + principalPortion, accumulatedInterest + interestPortion, accumulatedTotal + paymentSize, balance - principalPortion]))
-		else # ie the number of payments == paymentNumber
-\			return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
+		else # ie the number of payments == paymentNumber, thus we're done
+			return accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, principalPortion + interestPortion, paymentDate, table
 		end
 	end
 end
 
+"Call tablerow with arguments initialized to starting values."
 function dotablerows(principal, rate, frequency, compounding, startdate, firstPaymentDate, paymentSize, numberOfPayments)
-	# call tablerow with the arguments initialized to starting values
 	interestAmount = interest(principal, rate, timeValues[frequency], compounding, firstPaymentDate)
 	table = [1, firstPaymentDate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize -interestAmount)]
 	return tablerow(rate, frequency, compounding, startdate, paymentSize, 1, numberOfPayments, firstPaymentDate, paymentSize - interestAmount, interestAmount, paymentSize - interestAmount, interestAmount, paymentSize, principal - (paymentSize - interestAmount), table)
 end
 
-
-function calculateamortization(args)
-	# if the payment amount is specified, then we must calculate the amortization. Let's do it iteratively.
-	# We'll simply calculate each payment, and stop when the balance goes to zero or becomes negative.
-	interestAmount = interest(args["principal"], args["rate"], timeValues[args["frequency"]], args["compounding"], args["firstPaymentDate"])
-	return processpayment(startdate, interestAmount, principal - payment - interestAmount)
-end
-
-function processpayment(paymentDate, interestPortion, balance)
-	# @show paymentDate balance
-	interestPortion = interest(balance, rate, timeValues[frequency], compounding, paymentDate)
-	principalPortion = paymentSize - interestPortion
-	if principalPortion > balance # ie we've gone too far
-		return paymentDate
-	else
-		return processpayment(nextpaymentdate(paymentDate, frequency, startdate), interestPortion, balance - principalPortion)
-	end
-end
-
+"""
+Calculate the interest amount for a single time period.
+Simple interest formula is I = principal x rate x time
+"""
 function interest(principal, rate, timeValue, compounding, paymentDate)
-	# calculates the interest amount for a single time period
-	# simple interest formula is I = principal x rate x time
-	# @show principal rate time compounding
+
 	rate = rate * 0.01 # convert percent to fraction
 	if compounding == "s"
 		rate = rate / 365 # calculate daily interest rate; note that for some commercial mortgages, this value should be 360
@@ -79,7 +62,6 @@ function interest(principal, rate, timeValue, compounding, paymentDate)
 				end
 			end
 		else
-			# @show timeValue rate principal timeValue * rate * principal
 			return timeValue * rate * principal
 		end
 	else
@@ -94,17 +76,17 @@ function interest(principal, rate, timeValue, compounding, paymentDate)
 	end
 end
 
-# calculate the size of each payment, when not specified by the user.
+"""
+Return the size of each payment, when not specified by the user.
+For compound interest, the formula is: 
+P = r(PV) / (1 - (1+r)e(-n))
+where P = payment, PV = Present Value, r = rate per period, n = number of periods
+
+For simple interest, the formula is: 
+payment = (principal + interestAmount) / number of periods, where
+interestAmount = principal x interest x amortization
+"""
 function paymentsizecalc(annualRate, principal, amortization, compounding, frequency, startDate)
-	# @show annualRate principal amortization compounding frequency startDate
-	# for compound interest, the formula is: 
-	# P = r(PV) / (1 - (1+r)e(-n))
-	# where P = payment, PV = Present Value, r = rate per period, n = number of periods
-	
-	# for simple interest, the formula is: 
-	# payment = (principal + interestAmount) / number of periods, where
-	# interestAmount = principal x interest x amortization
-		
 	interest = annualRate / 100 # convert percentage to decimal
 	timeValue = timeValues[frequency]
 	if timeValue > 1 # ie if 7 or 14 days
@@ -115,37 +97,34 @@ function paymentsizecalc(annualRate, principal, amortization, compounding, frequ
 	elseif compounding == "m" # ie, monthly, or American, compounding
 		num = interest * timeValue * principal
 		denom = 1 - (1 + interest * timeValue) ^ (- amortization / timeValue)
-		# @show interest timeValue principal num denom num/denom
 		return num / denom
 	elseif compounding == "c" # ie, Canadian, or semi-annual, compounding
 		mi = (1 + interest/2)^(2 * timeValue)
-		# @show interest mi
 		return principal * (mi - 1) / (1 - mi ^ (-amortization / timeValue))
 	else
 		error("The compounding specified as '$compounding' is not defined.")
 	end
-	interestAmount = principal * (interest * timeValue) * amortization
-	println("interestAmount", interestAmount)
-	(principal + interestAmount) / (amortization * timeValue)
 end
 
+"""
+Return the number of payment periods, given frequency and duration.
+Starting date is needed to deal with leap years.
+For monthly or bimonthly payment frequencies, use 12 or 24 periods per year, respectively.
+For weekly or two-weekly payment frequencies, calculate the number of periods over the
+total amortization interval: get the number of days, and divide by 7 or 14, respectively.
+Duration is specified in years or a fraction thereof.
+"""
 function numberofperiods(frequency, duration, startDate)
-	# for monthly or bimonthly payment frequencies, use 12 or 24 periods per year, respectively
-	# for weekly or two-weekly payment frequencies, calculate the number of periods over the
-	# total amortization interval: get the number of days, and divide by 7 or 14, respectively
-	# duration is specified in years or a fraction thereof
 	if 	frequency == "m"
 		n = 12 * duration
 	elseif frequency == "b"
 		n = 24 * duration
 	else
-		# @show duration
 		if duration < 1 # calculate using months instead of years
 			days = (startDate + Month(duration * 12)) - startDate
 		else
 			days = (startDate + Year(duration)) - startDate
 		end
-		# @show days
 		if frequency == "w"
 			n = Int(days) / 7
 		elseif frequency == "t"
@@ -156,16 +135,17 @@ function numberofperiods(frequency, duration, startDate)
 	return round(Int, n)
 end
 
+"Return date for the next payment."
 function nextpaymentdate(paymentDate, frequency, startDate)
-	# compute the date for the next payment
 	if frequency == "m" # ie, monthly payments
-		if 28 <= day(startDate) <= daysinmonth(startDate) # if it will fit all months
+		# test if the starting date is on or after the 28th of the month
+		if 28 <= day(startDate) <= daysinmonth(startDate) 
 			days = daysinmonth(paymentDate) - day(paymentDate)
-			return lastdayofmonth(paymentDate + Month(1)) - Day(days)
+			# set a payment date which is the same number of days before month's end
+			return lastdayofmonth(paymentDate + Month(1)) - Day(days) 
 		else
 			return paymentDate + Month(1)
 		end
-			
 	elseif frequency == "b" # ie, payments twice a month
 		if day(paymentDate) ==1 
 			return paymentDate + Day(14)
