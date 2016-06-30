@@ -6,6 +6,7 @@ makedocs(
 )
 
 deploydocs(
-    deps   = Deps.pip("mkdocs", "python-markdown-math"),
-    repo   = "github.com/holder66/Mortgage.jl.git",
+    deps  = Deps.pip("mkdocs", "python-markdown-math"),
+    repo  = "github.com/holder66/Mortgage.jl.git",
+    julia = "release",
 )

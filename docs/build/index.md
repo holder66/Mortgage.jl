@@ -41,13 +41,41 @@ julia> Pkg.build("Mortgage")
 ## Quick start
 
 
-Here is a quick example of using Mortgage, with default values:
+Here are two  quick examples of using Mortgage, with default values:
 
 
+```
 julia> printsummary(mortgage()...)
 
+Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
+Compounding: monthly (American) compounding
+Your mortgage starts on 2016-06-29 and is amortized over (ie would be fully paid off in) 25.0 years.
+Your first payment of 908.70 will be on 2016-07-30.
+During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-29.
+At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04
+of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.
 
-Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly Compounding: monthly (American) compounding Your mortgage starts on 2016-06-29 and is amortized over (ie would be fully paid off in) 25.0 years. Your first payment of 908.70 will be on 2016-07-30. During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-29. At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04 of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.
+
+julia> printtable(mortgage(startdate=Date(2016,6,29), term="1/4")...)
+
+                       Mortgage Schedule of Payments
+					   
+Mortgage Principal: 100000.00 at 10.00% annual interest, amortized over 25.0 years,
+using monthly (American) compounding, to be repaid with 3 payments of 908.70 each,
+for a term of 3 months. The mortgage start date is 2016-06-29.
+	
+                                                   Accumulated   Accumulated   Accumulated
+Payment         Date    Principal     Interest       Principal      Interest         Total         Balance
+
+      1   2016-07-30        75.37       833.33           75.37        833.33        908.70        99924.63
+      2   2016-08-30        76.00       832.71          151.36       1666.04       1817.40        99848.64
+      3   2016-09-29        76.63       832.07          227.99       2498.11       2726.10        99772.01
+	  
+At the end of the term, the outstanding balance will be 99772.01.
+The last payment of the term will be on 2016-09-29 in the amount of 908.70.
+Over the term, you will have paid a total of 2726.10 of which 2498.11, or 91.64%, is interest. This
+represents 2.50% of the principal amount.
+```
 
 
 <a id='Documentation-1'></a>
@@ -58,9 +86,6 @@ Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly Compo
 Documentation is built automatically with help from *MkDocs* on *Travis CI* and hosted by *GitHub Pages*.
 
 
-[![][docs-latest-img]][docs-latest-url] [![][docs-stable-img]][docs-stable-url]
-
-
 <a id='Project-Status-1'></a>
 
 ## Project Status
@@ -69,30 +94,12 @@ Documentation is built automatically with help from *MkDocs* on *Travis CI* and 
 `Mortgage.jl` will eventually be tested against Julia `0.4` and *current* `0.5-dev` on Linux, OS X, and Windows.
 
 
-[![][travis-img]][travis-url] [![][appveyor-img]][appveyor-url] [![][codecov-img]][codecov-url]
-
-
 <a id='Contributing-and-Questions-1'></a>
 
 ## Contributing and Questions
 
 
 Contributions are very welcome, as are feature requests and suggestions. Please open an [issue][issues-url] if you encounter any problems or would just like to ask a question.
-
-
-[docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg [docs-latest-url]: https://holder66.github.io/Mortgage.jl.
-
-
-[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg [docs-stable-url]: https://holder66.github.io/Mortgage.jl
-
-
-[travis-img]: https://travis-ci.org/holder66/Mortgage.jl.svg?branch=master [travis-url]: https://travis-ci.org/holder66/Mortgage.jl
-
-
-[appveyor-img]: https://ci.appveyor.com/api/projects/status/h227adt6ovd1u3sx/branch/master?svg=true [appveyor-url]: https://ci.appveyor.com/project/holder66/Mortgage-jl/branch/master
-
-
-[codecov-img]: https://codecov.io/gh/holder66/Mortgage.jl/branch/master/graph/badge.svg [codecov-url]: https://codecov.io/gh/holder66/Mortgage.jl
 
 
 [issues-url]: https://github.com/holder66/Mortgage.jl/issues

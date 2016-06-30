@@ -157,25 +157,49 @@ julia&gt; Pkg.build(&quot;Mortgage&quot;)
 
 <p><a id='Quick-start-1'></a></p>
 <h2 id="quick-start">Quick start</h2>
-<p>Here is a quick example of using Mortgage, with default values:</p>
-<p>julia&gt; printsummary(mortgage()...)</p>
-<p>Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly Compounding: monthly (American) compounding Your mortgage starts on 2016-06-29 and is amortized over (ie would be fully paid off in) 25.0 years. Your first payment of 908.70 will be on 2016-07-30. During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-29. At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04 of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.</p>
+<p>Here are two  quick examples of using Mortgage, with default values:</p>
+<div class="codehilite"><pre><span></span><span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">printsummary</span><span class="o">(</span><span class="nt">mortgage</span><span class="o">()...)</span>
+
+<span class="nt">Principal</span><span class="o">:</span> <span class="nt">100000</span><span class="o">;</span> <span class="nt">Annual</span> <span class="nt">Interest</span> <span class="nt">Rate</span><span class="o">:</span> <span class="nt">10</span><span class="nc">.0</span><span class="o">%;</span> <span class="nt">Payment</span> <span class="nt">frequency</span><span class="o">:</span> <span class="nt">monthly</span>
+<span class="nt">Compounding</span><span class="o">:</span> <span class="nt">monthly</span> <span class="o">(</span><span class="nt">American</span><span class="o">)</span> <span class="nt">compounding</span>
+<span class="nt">Your</span> <span class="nt">mortgage</span> <span class="nt">starts</span> <span class="nt">on</span> <span class="nt">2016-06-29</span> <span class="nt">and</span> <span class="nt">is</span> <span class="nt">amortized</span> <span class="nt">over</span> <span class="o">(</span><span class="nt">ie</span> <span class="nt">would</span> <span class="nt">be</span> <span class="nt">fully</span> <span class="nt">paid</span> <span class="nt">off</span> <span class="nt">in</span><span class="o">)</span> <span class="nt">25</span><span class="nc">.0</span> <span class="nt">years</span><span class="o">.</span>
+<span class="nt">Your</span> <span class="nt">first</span> <span class="nt">payment</span> <span class="nt">of</span> <span class="nt">908</span><span class="nc">.70</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">on</span> <span class="nt">2016-07-30</span><span class="o">.</span>
+<span class="nt">During</span> <span class="nt">the</span> <span class="nt">term</span> <span class="nt">of</span> <span class="nt">5</span> <span class="nt">years</span><span class="o">,</span> <span class="nt">you</span> <span class="nt">will</span> <span class="nt">make</span> <span class="nt">60</span> <span class="nt">payments</span><span class="o">,</span> <span class="nt">with</span> <span class="nt">a</span> <span class="nt">final</span> <span class="nt">payment</span> <span class="nt">of</span> <span class="nt">908</span><span class="nc">.70</span> <span class="nt">on</span> <span class="nt">2021-06-29</span><span class="o">.</span>
+<span class="nt">At</span> <span class="nt">the</span> <span class="nt">end</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">term</span><span class="o">,</span> <span class="nt">the</span> <span class="nt">balance</span> <span class="nt">remaining</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">94163</span><span class="nc">.77</span><span class="o">.</span> <span class="nt">You</span> <span class="nt">will</span> <span class="nt">have</span> <span class="nt">paid</span> <span class="nt">a</span> <span class="nt">total</span> <span class="nt">of</span> <span class="nt">54522</span><span class="nc">.04</span>
+<span class="nt">of</span> <span class="nt">which</span> <span class="nt">48685</span><span class="nc">.81</span><span class="o">,</span> <span class="nt">or</span> <span class="nt">89</span><span class="nc">.3</span><span class="o">%,</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">interest</span><span class="o">.</span> <span class="nt">This</span> <span class="nt">represents</span> <span class="nt">48</span><span class="nc">.7</span><span class="o">%</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">principal</span> <span class="nt">amount</span><span class="o">.</span>
+
+
+<span class="nt">julia</span><span class="o">&gt;</span> <span class="nt">printtable</span><span class="o">(</span><span class="nt">mortgage</span><span class="o">(</span><span class="nt">startdate</span><span class="o">=</span><span class="nt">Date</span><span class="o">(</span><span class="nt">2016</span><span class="o">,</span><span class="nt">6</span><span class="o">,</span><span class="nt">29</span><span class="o">),</span> <span class="nt">term</span><span class="o">=</span><span class="s2">&quot;1/4&quot;</span><span class="o">)...)</span>
+
+                       <span class="nt">Mortgage</span> <span class="nt">Schedule</span> <span class="nt">of</span> <span class="nt">Payments</span>
+
+<span class="nt">Mortgage</span> <span class="nt">Principal</span><span class="o">:</span> <span class="nt">100000</span><span class="nc">.00</span> <span class="nt">at</span> <span class="nt">10</span><span class="nc">.00</span><span class="o">%</span> <span class="nt">annual</span> <span class="nt">interest</span><span class="o">,</span> <span class="nt">amortized</span> <span class="nt">over</span> <span class="nt">25</span><span class="nc">.0</span> <span class="nt">years</span><span class="o">,</span>
+<span class="nt">using</span> <span class="nt">monthly</span> <span class="o">(</span><span class="nt">American</span><span class="o">)</span> <span class="nt">compounding</span><span class="o">,</span> <span class="nt">to</span> <span class="nt">be</span> <span class="nt">repaid</span> <span class="nt">with</span> <span class="nt">3</span> <span class="nt">payments</span> <span class="nt">of</span> <span class="nt">908</span><span class="nc">.70</span> <span class="nt">each</span><span class="o">,</span>
+<span class="nt">for</span> <span class="nt">a</span> <span class="nt">term</span> <span class="nt">of</span> <span class="nt">3</span> <span class="nt">months</span><span class="o">.</span> <span class="nt">The</span> <span class="nt">mortgage</span> <span class="nt">start</span> <span class="nt">date</span> <span class="nt">is</span> <span class="nt">2016-06-29</span><span class="o">.</span>
+
+                                                   <span class="nt">Accumulated</span>   <span class="nt">Accumulated</span>   <span class="nt">Accumulated</span>
+<span class="nt">Payment</span>         <span class="nt">Date</span>    <span class="nt">Principal</span>     <span class="nt">Interest</span>       <span class="nt">Principal</span>      <span class="nt">Interest</span>         <span class="nt">Total</span>         <span class="nt">Balance</span>
+
+      <span class="nt">1</span>   <span class="nt">2016-07-30</span>        <span class="nt">75</span><span class="nc">.37</span>       <span class="nt">833</span><span class="nc">.33</span>           <span class="nt">75</span><span class="nc">.37</span>        <span class="nt">833</span><span class="nc">.33</span>        <span class="nt">908</span><span class="nc">.70</span>        <span class="nt">99924</span><span class="nc">.63</span>
+      <span class="nt">2</span>   <span class="nt">2016-08-30</span>        <span class="nt">76</span><span class="nc">.00</span>       <span class="nt">832</span><span class="nc">.71</span>          <span class="nt">151</span><span class="nc">.36</span>       <span class="nt">1666</span><span class="nc">.04</span>       <span class="nt">1817</span><span class="nc">.40</span>        <span class="nt">99848</span><span class="nc">.64</span>
+      <span class="nt">3</span>   <span class="nt">2016-09-29</span>        <span class="nt">76</span><span class="nc">.63</span>       <span class="nt">832</span><span class="nc">.07</span>          <span class="nt">227</span><span class="nc">.99</span>       <span class="nt">2498</span><span class="nc">.11</span>       <span class="nt">2726</span><span class="nc">.10</span>        <span class="nt">99772</span><span class="nc">.01</span>
+
+<span class="nt">At</span> <span class="nt">the</span> <span class="nt">end</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">term</span><span class="o">,</span> <span class="nt">the</span> <span class="nt">outstanding</span> <span class="nt">balance</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">99772</span><span class="nc">.01</span><span class="o">.</span>
+<span class="nt">The</span> <span class="nt">last</span> <span class="nt">payment</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">term</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">on</span> <span class="nt">2016-09-29</span> <span class="nt">in</span> <span class="nt">the</span> <span class="nt">amount</span> <span class="nt">of</span> <span class="nt">908</span><span class="nc">.70</span><span class="o">.</span>
+<span class="nt">Over</span> <span class="nt">the</span> <span class="nt">term</span><span class="o">,</span> <span class="nt">you</span> <span class="nt">will</span> <span class="nt">have</span> <span class="nt">paid</span> <span class="nt">a</span> <span class="nt">total</span> <span class="nt">of</span> <span class="nt">2726</span><span class="nc">.10</span> <span class="nt">of</span> <span class="nt">which</span> <span class="nt">2498</span><span class="nc">.11</span><span class="o">,</span> <span class="nt">or</span> <span class="nt">91</span><span class="nc">.64</span><span class="o">%,</span> <span class="nt">is</span> <span class="nt">interest</span><span class="o">.</span> <span class="nt">This</span>
+<span class="nt">represents</span> <span class="nt">2</span><span class="nc">.50</span><span class="o">%</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">principal</span> <span class="nt">amount</span><span class="o">.</span>
+</pre></div>
+
+
 <p><a id='Documentation-1'></a></p>
 <h2 id="documentation">Documentation</h2>
 <p>Documentation is built automatically with help from <em>MkDocs</em> on <em>Travis CI</em> and hosted by <em>GitHub Pages</em>.</p>
-<p>[![][docs-latest-img]][docs-latest-url] [![][docs-stable-img]][docs-stable-url]</p>
 <p><a id='Project-Status-1'></a></p>
 <h2 id="project-status">Project Status</h2>
 <p><code>Mortgage.jl</code> will eventually be tested against Julia <code>0.4</code> and <em>current</em> <code>0.5-dev</code> on Linux, OS X, and Windows.</p>
-<p>[![][travis-img]][travis-url] [![][appveyor-img]][appveyor-url] [![][codecov-img]][codecov-url]</p>
 <p><a id='Contributing-and-Questions-1'></a></p>
 <h2 id="contributing-and-questions">Contributing and Questions</h2>
 <p>Contributions are very welcome, as are feature requests and suggestions. Please open an <a href="https://github.com/holder66/Mortgage.jl/issues">issue</a> if you encounter any problems or would just like to ask a question.</p>
-<p>[docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg [docs-latest-url]: https://holder66.github.io/Mortgage.jl.</p>
-<p>[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg [docs-stable-url]: https://holder66.github.io/Mortgage.jl</p>
-<p>[travis-img]: https://travis-ci.org/holder66/Mortgage.jl.svg?branch=master [travis-url]: https://travis-ci.org/holder66/Mortgage.jl</p>
-<p>[appveyor-img]: https://ci.appveyor.com/api/projects/status/h227adt6ovd1u3sx/branch/master?svg=true [appveyor-url]: https://ci.appveyor.com/project/holder66/Mortgage-jl/branch/master</p>
-<p>[codecov-img]: https://codecov.io/gh/holder66/Mortgage.jl/branch/master/graph/badge.svg [codecov-url]: https://codecov.io/gh/holder66/Mortgage.jl</p>
               
             </div>
           </div>
@@ -193,6 +217,8 @@ julia&gt; Pkg.build(&quot;Mortgage&quot;)
 
   <div role="contentinfo">
     <!-- Copyright etc -->
+    
+      <p>Henry Olders 2016</p>
     
   </div>
 
@@ -223,5 +249,5 @@ julia&gt; Pkg.build(&quot;Mortgage&quot;)
 
 <!--
 MkDocs version : 0.15.3
-Build Date UTC : 2016-06-29 17:40:21.161826
+Build Date UTC : 2016-06-29 22:36:35.337647
 -->
