@@ -6,7 +6,7 @@ __precompile__()
     printsummary(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
 
 Print out a seven-line summary of the given and calculated mortgage parameters, eg:
-```julia
+
 julia> printsummary(mortgage(startdate=Date(2016,6,29))...)
 
 Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
@@ -16,7 +16,7 @@ Your first payment of 908.70 will be on 2016-07-30.
 During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-29.
 At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04
 of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.
-```
+
 # usage
 `printsummary(mortgage()...)`
 
@@ -40,7 +40,7 @@ end
     printtable(principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table)
 
 Print out a header, then a table with a row for each payment, and then a summary footer, eg:
-```julia
+
 julia> printtable(mortgage(startdate=Date(2016,6,29), term="1/4")...)
                        Mortgage Schedule of Payments
 
@@ -59,7 +59,7 @@ At the end of the term, the outstanding balance will be 99772.01.
 The last payment of the term will be on 2016-09-29 in the amount of 908.70.
 Over the term, you will have paid a total of 2726.10 of which 2498.11, or 91.64%, is interest. This
 represents 2.50% of the principal amount.
-```
+
 # usage
 `printtable(mortgage()...)`
 

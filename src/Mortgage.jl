@@ -4,7 +4,7 @@
 
 module Mortgage
 
-export mortgage, printsummary, printtable
+export mortgage, mortgagecalc, printsummary, printtable
 
 include("mortgageParameters.jl") # uses dictionaries to expand on input arguments
 include("mortgageFunctions.jl")
@@ -75,7 +75,10 @@ represents 2.50% of the principal amount.
 Commonly used with printsummary() or printtable(), which are part of this package.
 """
 function mortgage(; principal=100000, rate=10.0, amortization=25, frequency="m", compounding="m", startdate=today(), term="5", payment=nothing)
-	@show principal rate amortization frequency compounding startdate term payment
+	return mortgagecalc(principal, rate, amortization, frequency, compounding, startdate, term, payment)
+end
+
+function mortgagecalc(principal, rate, amortization, frequency, compounding, startdate, term, payment)
 	# obtain the length of the term in years
 	termLength = termlength(term, amortization)
 	# string suitable for printing
@@ -92,16 +95,13 @@ function mortgage(; principal=100000, rate=10.0, amortization=25, frequency="m",
 	return principal, rate, amortization, frequency, compounding, startdate, termString, paymentSize, firstPaymentDate, numberOfPayments, accumulatedPrincipal, accumulatedInterest, accumulatedTotal, balance, finalPayment, finalPaymentDate, table
 end
 
-function mortgage(args::Dict)
-	@show args
-	mortgage(principal=args["principal"], rate=args["rate"], amortization=args["amortization"], frequency=["frequency"], compounding=["compounding"], startdate=args["startdate"], term=["term"], payment=["payment"])
-end
-
 function main()
 	printsummary(mortgage()...)
 	printtable(mortgage()...)
 end
 
+# uncomment the line below, to run this module from the command line. However, it is preferable 
+# to use the mortgagecl.jl when one wants to use the command line.
 # main()
 
 end # module

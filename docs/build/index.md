@@ -78,6 +78,20 @@ represents 2.50% of the principal amount.
 ```
 
 
+<a id='Running-Mortgage-from-the-command-line-1'></a>
+
+## Running Mortgage from the command line
+
+
+If you prefer, in the shell type (the second example gives the usage):
+
+
+```
+user$ julia mortgagecl.jl
+user$ julia mortgagecl.jl --help
+```
+
+
 <a id='Documentation-1'></a>
 
 ## Documentation

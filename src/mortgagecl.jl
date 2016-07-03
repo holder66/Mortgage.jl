@@ -14,25 +14,11 @@ function main(x...)
 		end
 	end
 	p = parse_commandline(args)
-	@show p
-	k=collect(keys(p))
-	v=collect(values(p))
-	s=string(k[1] ,"=", v[1])
-	for i = 2:length(k)
-		s = string(s, ", ", k[i] ,"=", v[i])
+	if p["output"] == nothing
+		printsummary(mortgagecalc(p["principal"], p["rate"], p["amortization"], p["frequency"], p["compounding"], p["startdate"], p["term"], p["payment"])...)
+	else
+		printtable(mortgagecalc(p["principal"], p["rate"], p["amortization"], p["frequency"], p["compounding"], p["startdate"], p["term"], p["payment"])...)
 	end
-	@show s
-	# parsed_args = initialization(parse_commandline(args))
-	# output = get(parsed_args, "output", "") # returns the value stored for key "output"; if no value provided, returns ""
-	# if output == nothing
-	# 	printsummary(mortgage(parsed_args)...)
-	# else
-	# 	printtable(parsed_args)
-	# 	if output != "list" # ie use the argument value as a filename
-	# 		writefile(parsed_args)
-	# 	end
-	# end
-	@show mortgage(p)
 end
 
 main()

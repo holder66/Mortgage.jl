@@ -60,7 +60,13 @@ Here are two  quick examples of using Mortgage, with default values:
 	The last payment of the term will be on 2016-09-29 in the amount of 908.70.
 	Over the term, you will have paid a total of 2726.10 of which 2498.11, or 91.64%, is interest. This
 	represents 2.50% of the principal amount.
+	
+## Running Mortgage from the command line
 
+If you prefer, in the shell type (the second example gives the usage):
+
+	user$ julia mortgagecl.jl
+	user$ julia mortgagecl.jl --help
 
 ## Documentation
 
