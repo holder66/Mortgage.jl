@@ -6,6 +6,8 @@ using Base.Dates
 
 "Return length of the mortgage or loan term in years."
 function termlength(term, amortization)
+	@show term haskey(mortgageTermDescriptors, term)
+	# use a ? : construct as an if - then - else oneliner
 	termLength = haskey(mortgageTermDescriptors, term) ? mortgageTermDescriptors[term][2] : parse(Int, term)
 	if termLength == "a"
 		termLength = amortization
