@@ -23,7 +23,7 @@ Return calculated values for mortgages or other loans.
   * `amortization::Number`: the number of years over which the entire loan or mortgage would be paid off. Default is amortization=25
   * `frequency::String`: "m" for monthly (default); "w" for weekly; "t" for two weeks; "b" for bimonthly. Note that for bimonthly payments, they will occur on the first and the fifteenth of each month, and the mortgage should start on the first or fifteenth of the month.
   * `compounding::String`: "s" for none (simple interest; note that interest accrues daily but is not compounded); "m" for monthly (ie American) (this is the default); "c" for Canadian (ie semi-annual. Note that variable rate mortgages often compound monthly - check the fine print.)
-  * `startdate::Date`: start date for the mortgage; default is today's date. Enter as: startdate=Date(2016,7,13)
+  * `startdate::String`: start date for the mortgage; default is today's date.
   * `term::String`: specify the term in years; use "1/4" for 3 months and "1/2" for 6 months; enter "a" to indicate for the entire amortization interval (ie until paid off); default is 5 years. A term greater than the amortization will generate an error.
   * `payment::Number`: payment amount; if not specified, it will be calculated based on the amortization interval. Note that for simple interest mortgages, the payment will be calculated as for monthly compounded mortgages.
 
@@ -34,13 +34,13 @@ This value returned by mortgage() is a one-dimensional array with eight values f
 **Examples**
 
 ```julia
-julia> mortgage(principal=54000, rate=2.125, amortization=20, frequency="w", compounding="c", startdate=Date(2016,6,29), term="a")
+julia> mortgage(principal=54000, rate=2.125, amortization=20, frequency="w", compounding="c", startdate="2016-6-29", term="a")
 
 (54000,2.125,20,"w","c",2016-06-29,"until paid off",63.50799378958494,2016-07-06,1044,54000.00000000001,12229.766528153477,66229.76652815354,0,54.43699940601391,2036-06-25,Any[1,2016-07-06,41.61279659644556,21.89519719313937,41.61279659644556,21.89519719313937,63.50799378958494,53958.38720340355,2,2016-07-13  …  66175.32952874753,54.41493596613927,1043,2036-06-25,63.485930349710294,0.022063439874642057,54009.070994383575,12229.766528153477,66238.83752253711,-9.070994383571026])
 ```
 
 ```julia
-julia> printsummary(mortgage(startdate=Date(2016,6,28))...)
+julia> printsummary(mortgage(startdate="2016-6-28")...)
 
 Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
 Compounding: monthly (American) compounding
@@ -52,7 +52,7 @@ of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the prin
 ```
 
 ```julia
-julia> printtable(mortgage(startdate=Date(2016,6,29), term="1/4")...)
+julia> printtable(mortgage(startdate="2016-6-29", term="1/4")...)
 
                        Mortgage Schedule of Payments
 
