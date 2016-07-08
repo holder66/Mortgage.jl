@@ -139,10 +139,10 @@
               
                 <p><a id='DocTests-for-mortgage()-1'></a></p>
 <h1 id="doctests-for-mortgage">DocTests for mortgage()</h1>
-<p>Note that in all the tests, startdate is provided. If startdate were not supplied, the default of today's date would be used, causing doctests that were specified on a different date to fail.</p>
+<p>Note that in all the tests, startdate is provided. If startdate were not supplied, the default of today's date would be used, causing doctests that were specified on a different date to fail. Thanks to the DateParser package, a variety of date formats can be used. See below for some examples.</p>
 <p><a id='mortgage()-as-a-standalone-function-1'></a></p>
 <h2 id="mortgage-as-a-standalone-function">mortgage() as a standalone function</h2>
-<pre class="codehilite"><code class="language-julia">julia&gt; mortgage(principal=54000, rate=2.125, amortization=20, frequency=&quot;w&quot;, compounding=&quot;c&quot;, startdate=Date(2016,6,29), term=&quot;a&quot;)
+<pre class="codehilite"><code class="language-julia">julia&gt; mortgage(principal=54000, rate=2.125, amortization=20, frequency=&quot;w&quot;, compounding=&quot;c&quot;, startdate=&quot;2016-6-29&quot;, term=&quot;a&quot;)
 
 (54000,2.125,20,&quot;w&quot;,&quot;c&quot;,2016-06-29,&quot;until paid off&quot;,63.50799378958494,2016-07-06,1044,54000.00000000001,12229.766528153477,66229.76652815354,0,54.43699940601391,2036-06-25,Any[1,2016-07-06,41.61279659644556,21.89519719313937,41.61279659644556,21.89519719313937,63.50799378958494,53958.38720340355,2,2016-07-13  …  66175.32952874753,54.41493596613927,1043,2036-06-25,63.485930349710294,0.022063439874642057,54009.070994383575,12229.766528153477,66238.83752253711,-9.070994383571026])</code></pre>
 
@@ -153,7 +153,7 @@
 <h2 id="testing-each-parameter-individually">Testing each parameter individually</h2>
 <p><a id='startdate-1'></a></p>
 <h3 id="startdate">startdate</h3>
-<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=Date(2016,6,28))...)
+<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=&quot;2016/6/28&quot;)...)
 
 Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
 Compounding: monthly (American) compounding
@@ -166,7 +166,7 @@ of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the prin
 
 <p><a id='principal-1'></a></p>
 <h3 id="principal">principal</h3>
-<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=Date(2016,6,28), principal=4503.21)...)
+<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=&quot;28 june 2016&quot;, principal=4503.21)...)
 
 Principal: 4503.21; Annual Interest Rate: 10.0%; Payment frequency: monthly
 Compounding: monthly (American) compounding
@@ -179,7 +179,7 @@ of which 2192.42, or 89.3%, will be interest. This represents 48.7% of the princ
 
 <p><a id='rate-1'></a></p>
 <h3 id="rate">rate</h3>
-<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=Date(2016,6,28), rate=3.27)...)
+<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=&quot;28-6-2016&quot;, rate=3.27)...)
 
 Principal: 100000; Annual Interest Rate: 3.27%; Payment frequency: monthly
 Compounding: monthly (American) compounding
@@ -192,7 +192,7 @@ of which 15251.74, or 52.0%, will be interest. This represents 15.3% of the prin
 
 <p><a id='amortization-1'></a></p>
 <h3 id="amortization">amortization</h3>
-<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=Date(2016,6,28), amortization=6.25)...)
+<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=&quot;28th jun, 2016&quot;, amortization=6.25)...)
 
 Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
 Compounding: monthly (American) compounding
@@ -205,8 +205,7 @@ of which 33170.42, or 30.7%, will be interest. This represents 33.2% of the prin
 
 <p><a id='frequency-1'></a></p>
 <h3 id="frequency">frequency</h3>
-<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=Date(2016,6,28), frequency=&quot;w&quot;)...)
-
+<pre class="codehilite"><code class="language-julia">julia&gt; printsummary(mortgage(startdate=&quot;2016 June 28&quot;, frequency=&quot;w&quot;)...)
 Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: weekly
 Compounding: monthly (American) compounding
 Your mortgage starts on 2016-06-28 and is amortized over (ie would be fully paid off in) 25.0 years.
