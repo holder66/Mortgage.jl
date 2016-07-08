@@ -26,8 +26,7 @@ Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
 Compounding: monthly (American) compounding
 Your mortgage starts on 2016-06-28 and is amortized over (ie would be fully paid off in) 25.0 years.
 Your first payment of 908.70 will be on 2016-07-29.
-During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 202), frequency="w")...)
-1-06-28.
+During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-28.
 At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04
 of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.
 ```
@@ -73,7 +72,7 @@ of which 33170.42, or 30.7%, will be interest. This represents 33.2% of the prin
 
 ### frequency
 ```julia
-julia> printsummary(mortgage(startdate=Date(2016,6,28
+julia> printsummary(mortgage(startdate="2016 June 28", frequency="w")...)
 Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: weekly
 Compounding: monthly (American) compounding
 Your mortgage starts on 2016-06-28 and is amortized over (ie would be fully paid off in) 25.0 years.
