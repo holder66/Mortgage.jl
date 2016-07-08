@@ -2,7 +2,7 @@ using Documenter, Mortgage
  
 makedocs(
 	doctest = true,
-	clean = true,
+	clean = false,
 )
 
 deploydocs(
