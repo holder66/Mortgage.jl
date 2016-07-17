@@ -1,8 +1,8 @@
-__precompile__()
+# __precompile__()
 
 # Mortgage calculator functions
 
-using Base.Dates
+using Base.Dates, DecFP
 
 "Return length of the mortgage or loan term in years."
 function termlength(term, amortization)
@@ -163,4 +163,15 @@ function nextpaymentdate(paymentDate, frequency, startDate)
 	else
 		error("not defined")
 	end
+end
+
+"Convert a Decimal Floating Point Number to a Float (eg for printing)"
+function dectofloat(a::Dec64)
+	arr=split(string(a),"E")
+	return parse(Float64, arr[1]) * 10. ^ parse(Int, arr[2])
+end
+
+function dectofloat(a::Dec128)
+	arr=split(string(a),"E")
+	return parse(Float64, arr[1]) * 10. ^ parse(Int, arr[2])
 end

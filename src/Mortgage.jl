@@ -10,7 +10,7 @@ include("mortgageParameters.jl") # uses dictionaries to expand on input argument
 include("mortgageFunctions.jl")
 include("mortgagePrintouts.jl")
 
-using DateParser
+using DateParser, DecFP
 
 """
     mortgage(<keyword arguments>)
@@ -36,27 +36,26 @@ These values are used by printtable() to print out a listing with one line for e
 
 # Examples
 ```
-julia> mortgage(principal=54000, rate=2.125, amortization=20, frequency="w", compounding="c", startdate="2016-6-29", term="a")
+julia> mortgage(principal=54000.00, rate=2.125, amortization=20, frequency="w", compounding="c", startdate="2016-6-29", term="a")
 
-(54000,2.125,20,"w","c",2016-06-29,"until paid off",63.50799378958494,2016-07-06,1044,54000.00000000001,12229.766528153477,66229.76652815354,0,54.43699940601391,2036-06-25,Any[1,2016-07-06,41.61279659644556,21.89519719313937,41.61279659644556,21.89519719313937,63.50799378958494,53958.38720340355,2,2016-07-13  …  66175.32952874753,54.41493596613927,1043,2036-06-25,63.485930349710294,0.022063439874642057,54009.070994383575,12229.766528153477,66238.83752253711,-9.070994383571026])
+(+54000E+0,2.125,20,"w","c",2016-06-29,"until paid off",+6350799378958492E-14,2016-07-06,1044,+5400000000000002E-11,+1222976652815350E-11,+6622976652815349E-11,0,+5443699940613216E-14,2036-06-25,Any[1,2016-07-06,+4161279659644555E-14,+2189519719313937E-14,+4161279659644555E-14,+2189519719313937E-14,+6350799378958492E-14,+5395838720340355E-11,2,2016-07-13  …  +6617532952874735E-11,+5441493596625747E-14,1043,2036-06-25,+6348593034971023E-14,+2206343987468998E-17,+5400907099438347E-11,+1222976652815350E-11,+6623883752253694E-11,-907099438345276E-14])
 ```
 ```
-julia> printsummary(mortgage(startdate="2016-6-28")...)
+julia> printsummary(mortgage(startdate=Date(2016,6,29))...)
 
-Principal: 100000; Annual Interest Rate: 10.0%; Payment frequency: monthly
+Principal: 100000.00; Annual Interest Rate 10.0%; Payment frequency: monthly
 Compounding: monthly (American) compounding
-Your mortgage starts on 2016-06-28 and is amortized over (ie would be fully paid off in) 25.0 years.
-Your first payment of 908.70 will be on 2016-07-29.
-During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-28.
+Your mortgage starts on 2016-06-29 and is amortized over (ie would be fully paid off in) 25.00 years.
+Your first payment of 908.70 will be on 2016-07-30.
+During the term of 5 years, you will make 60 payments, with a final payment of 908.70 on 2021-06-29.
 At the end of the term, the balance remaining will be 94163.77. You will have paid a total of 54522.04
 of which 48685.81, or 89.3%, will be interest. This represents 48.7% of the principal amount.
 ```
 ```
-julia> printtable(mortgage(startdate="2016-6-29", term="1/4")...)
-
+julia> printtable(mortgage(startdate=Date(2016,6,29), term="1/4")...)
                        Mortgage Schedule of Payments
 
-Mortgage Principal: 100000.00 at 10.00% annual interest, amortized over 25.0 years,
+Mortgage Principal: 100000.00 at 10.000% annual interest, amortized over 25.00 years,
 using monthly (American) compounding, to be repaid with 3 payments of 908.70 each,
 for a term of 3 months. The mortgage start date is 2016-06-29.
 
@@ -76,16 +75,14 @@ represents 2.50% of the principal amount.
 # Usage
 Commonly used with printsummary() or printtable(), which are part of this package.
 """
-function mortgage(; principal=100000, rate=10.0, amortization=25, frequency="m", compounding="m", startdate=today(), term="5", payment=nothing)
-	# @show typeof(startdate)
-	if typeof(startdate) == ASCIIString
-		startdate = get(tryparse(Date, startdate))
-	end
-	# @show startdate
+function mortgage(; principal::Number=100000, rate::Number=10.0, amortization::Number=25, frequency::ASCIIString="m", compounding::ASCIIString="m", startdate=today(), term::ASCIIString="5", payment=nothing)
+	startdate = typeof(startdate) == Date ? startdate : get(tryparse(Date, startdate))
+	principal = typeof(principal) == Dec64 ? principal : Dec64(principal)
+	payment = typeof(payment) != Void ? Dec64(payment) : payment
 	return mortgagecalc(principal, rate, amortization, frequency, compounding, startdate, term, payment)
 end
 
-function mortgagecalc(principal, rate, amortization, frequency, compounding, startdate, term, payment)
+function mortgagecalc(principal::Dec64, rate::Number, amortization::Number, frequency::ASCIIString, compounding::ASCIIString, startdate, term::ASCIIString, payment)
 	# obtain the length of the term in years
 	termLength = termlength(term, amortization)
 	# string suitable for printing

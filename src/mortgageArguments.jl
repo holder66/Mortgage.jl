@@ -1,7 +1,8 @@
-# __precompile__()
+__precompile__()
 
 using ArgParse,
-	Base.Dates
+	Base.Dates,
+	DecFP
 
 function parse_commandline(args)
 	s = ArgParseSettings()
@@ -13,15 +14,15 @@ function parse_commandline(args)
 			default = 10.
 		"--principal", "-p"
 			help = "principal amount, in any currency"
-			arg_type = Int
-			default = 100000
+			arg_type = Dec64
+			default = Dec64(100000)
 		"--amortization", "-a"
 			help = "amortization interval, in years; defaults to 25 years (note: if a payment amount is specified, amortization interval is ignored)"
 			arg_type = Int
 			default = 25
 		"--payment", "-y"
 			help = "payment amount; if not specified, it will be calculated based on the amortization interval. Note that for simple interest mortgages, the payment will be calculated as for monthly compounded mortgages."
-			arg_type = Float64
+			arg_type = Dec64
 		"--frequency", "-f"
 			help = "payment frequency: m = monthly (default); w = weekly; t = two weeks; b = bimonthly. Note that for bimonthly payments, they will occur on the first and the fifteenth of each month, and the mortgage should start on the first or fifteenth of the month."
 			arg_type = AbstractString
