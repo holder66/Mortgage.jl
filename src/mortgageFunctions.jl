@@ -175,3 +175,7 @@ function dectofloat(a::Dec128)
 	arr=split(string(a),"E")
 	return parse(Float64, arr[1]) * 10. ^ parse(Int, arr[2])
 end
+# if the argument is an integer, just return it
+function dectofloat(a::Int64)
+	return a
+end
