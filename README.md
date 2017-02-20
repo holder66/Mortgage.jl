@@ -47,7 +47,7 @@ Documentation is built automatically with help from *MkDocs* on *Travis CI* and 
 
 ## Project Status
 
-`Mortgage.jl` will eventually be tested against Julia `0.4` and *current* `0.5-dev` on Linux, OS X, and Windows.
+`Mortgage.jl` will eventually be tested against Julia `0.5` and *current* `0.6-dev` on Linux, OS X, and Windows.
 
 [![][travis-img]][travis-url] [![][appveyor-img]][appveyor-url] [![][codecov-img]][codecov-url]
 
