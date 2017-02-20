@@ -2,7 +2,7 @@ site_name:           Mortgage.jl
 repo_url:            https://github.com/holder66/Mortgage.jl
 site_description:    Description
 site_author:         Henry Olders
-copyright:           © Henry Olders 2016
+copyright:           © Henry Olders 2016, 2017
 theme:               readthedocs
 
 markdown_extensions:

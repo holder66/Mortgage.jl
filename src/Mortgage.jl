@@ -77,8 +77,8 @@ represents 2.50% of the principal amount.
 Commonly used with printsummary() or printtable(), which are part of this package.
 """
 function mortgage(; principal=100000, rate=10.0, amortization=25, frequency="m", compounding="m", startdate=today(), term="5", payment=nothing)
-	# @show typeof(startdate)
-	if typeof(startdate) == ASCIIString
+	@show typeof(startdate)
+	if typeof(startdate) == AbstractString
 		startdate = get(tryparse(Date, startdate))
 	end
 	# @show startdate
